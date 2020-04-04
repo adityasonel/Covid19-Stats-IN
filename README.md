@@ -13,17 +13,29 @@
 
 **Covid19 Stats India** is a sample React Native application 📱 built to demonstrate use of _Modern React Native development_ tools. Dedicated to all React Native Developers with ❤️.
 
+## Features
+
+- [Redux](http://redux.js.org/)
+- [Redux Saga](https://redux-saga.js.org/)
+- [Redux Thunk](https://github.com/reduxjs/redux-thunk)
+- [React Navigation](https://reactnavigation.org/)
+- [React Native Gesture Handler](https://github.com/kmagiera/react-native-gesture-handler)
+- [Axios](https://github.com/axios/axios)
+- [Eslint](http://eslint.org/) ([Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb))
+
 ## Screenshot
 
-<img src="gallery/app.jpeg" height="500"/>
+<img align="left" src="gallery/app1.jpeg" height="500"/>
+<img align="left" src="gallery/app2.jpeg" height="500"/>
+<img src="gallery/app3.jpeg" height="500"/>
 
 **_You can Install and test latest Covid19 Stats India app from below 👇_**
-_work in progress..._
+[![Covid19 Stats India App](https://img.shields.io/badge/Covid19StatsIndia-APK-blue.svg?style=for-the-badge&logo=android)](https://github.com/adityasonel/Covid19-Stats-IN/releases)
 
 ## About
 
 - It simply loads **Total COVID19 cases in India** from [API](https://github.com/covid19india/api).
-- It notifies total cases of COVID19 in India after every 1 hours.
+- It notifies total cases of COVID19 in India.
 - It is offline capable 😃.
 
 ## Contribute
