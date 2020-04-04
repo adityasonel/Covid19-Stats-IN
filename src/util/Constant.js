@@ -1,0 +1,14 @@
+const APP_SCREEN = {
+  HOME_STATS_SCREEN: 'HOME_STATS_SCREEN',
+  DETAILED_STATS_SCREEN: 'DETAILED_STATS_SCREEN',
+  APP_INFO_SCREEN: 'APP_INFO_SCREEN',
+};
+
+const STATS_STATUS = {
+  0: 'Confirmed',
+  1: 'Active',
+  2: 'Recovered',
+  3: 'Deaths',
+};
+
+export {APP_SCREEN, STATS_STATUS};
