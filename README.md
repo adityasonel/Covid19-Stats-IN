@@ -30,6 +30,7 @@
 <img src="gallery/app3.jpeg" height="500"/>
 
 **_You can Install and test latest Covid19 Stats India app from below 👇_**
+
 [![Covid19 Stats India App](https://img.shields.io/badge/Covid19StatsIndia-APK-blue.svg?style=for-the-badge&logo=android)](https://github.com/adityasonel/Covid19-Stats-IN/releases)
 
 ## About
