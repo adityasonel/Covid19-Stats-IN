@@ -1,27 +1,32 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 
 import StatusBar from '../component/StatusBar';
 import Header from '../component/Header';
+import DetailedStatsCard from '../component/DetailedStatsCard';
 
 import Color from '../util/Color';
-import {STATS_STATUS} from '../util/Constant';
 
 export default class DetailedStatsScreen extends React.PureComponent {
   render() {
-    const {index} = this.props.route.params;
+    let {data} = this.props.route.params;
+    let d = data.filter((r) => r.state != 'Total');
 
     let title = 'Detailed Stats';
-    Object.keys(STATS_STATUS).forEach(k => {
-      if (k == index) {
-        title = STATS_STATUS[k] + ' Cases';
-      }
-    });
 
     return (
       <View style={styles.container}>
         <StatusBar />
         <Header navigate={this.props.navigation} title={title} />
+
+        <FlatList
+          contentContainerStyle={{margin: 10, paddingBottom: 20}}
+          data={d}
+          renderItem={({item, index}) => <DetailedStatsCard item={item} />}
+          keyExtractor={(item) => item.statecode}
+          showsVerticalScrollIndicator={false}
+          overScrollMode="never"
+        />
       </View>
     );
   }

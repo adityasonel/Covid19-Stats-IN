@@ -26,31 +26,33 @@ class HomeStatsScreen extends React.PureComponent {
     totalStats: [
       {
         id: 0,
-        count: '00',
+        count: '--',
       },
       {
         id: 1,
-        count: '00',
+        count: '--',
       },
       {
         id: 2,
-        count: '00',
+        count: '--',
       },
       {
         id: 3,
-        count: '00',
+        count: '--',
       },
     ],
     stateWise: [],
-    lastUpdated: 0,
+    lastUpdated: 'xx/xx/xxxx xx:xx:xx',
     isRefresh: false,
     error: '',
   };
 
   _onPressMoreInfo = (index) => {
-    this.props.navigation.navigate(APP_SCREEN.DETAILED_STATS_SCREEN, {
-      index: index,
-    });
+    if (this.state.stateWise.length != 0) {
+      this.props.navigation.navigate(APP_SCREEN.DETAILED_STATS_SCREEN, {
+        data: this.state.stateWise,
+      });
+    }
   };
 
   _onPressAppInfo = () => {
@@ -92,6 +94,7 @@ class HomeStatsScreen extends React.PureComponent {
         isRefresh: nextProps.isRequesting,
         lastUpdated: upTime,
         error: nextProps.error,
+        stateWise: nextProps.data.data.statewise,
       };
     } else {
       return null;
