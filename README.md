@@ -15,13 +15,12 @@
 
 ## Features
 
-- [Redux](http://redux.js.org/)
-- [Redux Saga](https://redux-saga.js.org/)
-- [Redux Thunk](https://github.com/reduxjs/redux-thunk)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
 - [React Navigation](https://reactnavigation.org/)
 - [React Native Gesture Handler](https://github.com/kmagiera/react-native-gesture-handler)
 - [Axios](https://github.com/axios/axios)
-- [Eslint](http://eslint.org/) ([Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb))
+
+For Redux example check branch [master](https://github.com/adityasonel/Covid19-Stats-IN/tree/master)
 
 ## Screenshot
 

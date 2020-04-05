@@ -40,7 +40,7 @@ const HomeStatsScreen = (props) => {
       },
     ],
     stateWiseStats: [],
-    lastUpdateTime: 'xx/xx/xxxx xx:xx:xx',
+    lastUpdateTime: '',
     isRequestDone: false,
     error: '',
   });
@@ -124,7 +124,7 @@ const HomeStatsScreen = (props) => {
             },
           ],
           stateWiseStats: [],
-          lastUpdateTime: 'xx/xx/xxxx xx:xx:xx',
+          lastUpdateTime: '',
           error: error,
           isRequestDone: true,
         });
@@ -132,13 +132,31 @@ const HomeStatsScreen = (props) => {
       });
   };
 
+  function tConvert(timestamp) {
+    let data = timestamp.substring(0, timestamp.indexOf(' '));
+    let time = timestamp.substring(timestamp.indexOf(' ') + 1);
+    time = time
+      .toString()
+      .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) {
+      time = time.slice(1);
+      time[5] = +time[0] < 12 ? ' AM' : ' PM';
+      time[0] = +time[0] % 12 || 12;
+    }
+    return data + ' ' + time.join('');
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar />
       <Header title="Covid19 Stats India" />
 
       <Text style={styles.textLastUpdate}>
-        Last updated on : {stats.lastUpdateTime}
+        Last updated on :{' '}
+        {stats.lastUpdateTime
+          ? tConvert(stats.lastUpdateTime)
+          : 'xx/xx/xxxx xx:xx:xx'}
       </Text>
       {stats.error ? (
         <ScrollView
