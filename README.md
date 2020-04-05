@@ -23,6 +23,8 @@
 - [Axios](https://github.com/axios/axios)
 - [Eslint](http://eslint.org/) ([Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb))
 
+For Hooks example check branch [master-v2-hooks](https://github.com/adityasonel/Covid19-Stats-IN/tree/master-v2-hooks)
+
 ## Screenshot
 
 <img align="left" src="gallery/app1.jpeg" height="500"/>
