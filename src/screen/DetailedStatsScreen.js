@@ -7,30 +7,28 @@ import DetailedStatsCard from '../component/DetailedStatsCard';
 
 import Color from '../util/Color';
 
-export default class DetailedStatsScreen extends React.PureComponent {
-  render() {
-    let {data} = this.props.route.params;
-    let d = data.filter((r) => r.state != 'Total');
+const DetailedStatsScreen = (props) => {
+  let {data} = props.route.params;
+  let d = data.filter((r) => r.state != 'Total');
 
-    let title = 'Detailed Stats';
+  let title = 'Detailed Stats';
 
-    return (
-      <View style={styles.container}>
-        <StatusBar />
-        <Header navigate={this.props.navigation} title={title} />
+  return (
+    <View style={styles.container}>
+      <StatusBar />
+      <Header navigate={props.navigation} title={title} />
 
-        <FlatList
-          contentContainerStyle={{margin: 10, paddingBottom: 20}}
-          data={d}
-          renderItem={({item, index}) => <DetailedStatsCard item={item} />}
-          keyExtractor={(item) => item.statecode}
-          showsVerticalScrollIndicator={false}
-          overScrollMode="never"
-        />
-      </View>
-    );
-  }
-}
+      <FlatList
+        contentContainerStyle={{margin: 10, paddingBottom: 20}}
+        data={d}
+        renderItem={({item, index}) => <DetailedStatsCard item={item} />}
+        keyExtractor={(item) => item.statecode}
+        showsVerticalScrollIndicator={false}
+        overScrollMode="never"
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -38,3 +36,5 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
   },
 });
+
+export default DetailedStatsScreen;

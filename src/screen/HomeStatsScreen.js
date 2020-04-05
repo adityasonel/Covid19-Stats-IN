@@ -25,18 +25,22 @@ const HomeStatsScreen = (props) => {
       {
         id: 0,
         count: '--',
+        deltaCount: '--',
       },
       {
         id: 1,
         count: '--',
+        deltaCount: '--',
       },
       {
         id: 2,
         count: '--',
+        deltaCount: '--',
       },
       {
         id: 3,
         count: '--',
+        deltaCount: '--',
       },
     ],
     stateWiseStats: [],
@@ -82,18 +86,22 @@ const HomeStatsScreen = (props) => {
             {
               id: 0,
               count: data[0].confirmed,
+              deltaCount: data[0].deltaconfirmed,
             },
             {
               id: 1,
               count: data[0].active,
+              deltaCount: '--',
             },
             {
               id: 2,
               count: data[0].recovered,
+              deltaCount: data[0].deltarecovered,
             },
             {
               id: 3,
               count: data[0].deaths,
+              deltaCount: data[0].deltadeaths,
             },
           ],
           stateWiseStats: data,
@@ -105,26 +113,6 @@ const HomeStatsScreen = (props) => {
       })
       .catch((error) => {
         setStats({
-          totalStats: [
-            {
-              id: 0,
-              count: '--',
-            },
-            {
-              id: 1,
-              count: '--',
-            },
-            {
-              id: 2,
-              count: '--',
-            },
-            {
-              id: 3,
-              count: '--',
-            },
-          ],
-          stateWiseStats: [],
-          lastUpdateTime: '',
           error: error,
           isRequestDone: true,
         });
@@ -186,6 +174,7 @@ const HomeStatsScreen = (props) => {
             <HomeStatsCard
               index={index}
               count={item.count}
+              deltaCount={item.deltaCount}
               onPressMoreInfo={() =>
                 _onPressMoreInfo(stats.stateWiseStats, props)
               }

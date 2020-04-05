@@ -33,7 +33,21 @@ export default DetailedStatsCard = (props) => {
               fontSize: 18,
             }}>
             Confirmed{'\n'}
-            <Text style={{fontFamily: 'bold'}}>{item.confirmed}</Text>
+            <Text
+              style={{
+                fontFamily: 'bold',
+              }}>
+              {item.confirmed}
+              {'\t\t'}
+              {item.deltaconfirmed != 0 ? (
+                <Text
+                  style={{
+                    color: Color.dark_red,
+                  }}>
+                  [+{item.deltaconfirmed}]
+                </Text>
+              ) : null}
+            </Text>
           </Text>
           <Text
             style={{
@@ -66,7 +80,18 @@ export default DetailedStatsCard = (props) => {
               fontSize: 18,
             }}>
             Recovered{'\n'}
-            <Text style={{fontFamily: 'bold'}}>{item.recovered}</Text>
+            <Text style={{fontFamily: 'bold'}}>
+              {item.recovered}
+              {'\t\t'}
+              {item.deltarecovered != 0 ? (
+                <Text
+                  style={{
+                    color: Color.dark_green,
+                  }}>
+                  [+{item.deltarecovered}]
+                </Text>
+              ) : null}
+            </Text>
           </Text>
           <Text
             style={{
@@ -79,7 +104,18 @@ export default DetailedStatsCard = (props) => {
               fontSize: 18,
             }}>
             Deaths{'\n'}
-            <Text style={{fontFamily: 'bold'}}>{item.deaths}</Text>
+            <Text style={{fontFamily: 'bold'}}>
+              {item.deaths}
+              {'\t\t'}
+              {item.deltadeaths != 0 ? (
+                <Text
+                  style={{
+                    color: Color.dark_yellow,
+                  }}>
+                  [+{item.deltadeaths}]
+                </Text>
+              ) : null}
+            </Text>
           </Text>
         </View>
       </View>

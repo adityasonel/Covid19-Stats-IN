@@ -6,7 +6,7 @@ import Color from '../util/Color';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default HomeStatsCard = (props) => {
-  const {index, count, onPressMoreInfo} = props;
+  const {index, count, deltaCount, onPressMoreInfo} = props;
 
   let customCardStyle = {};
   let customTitleStyle = {};
@@ -65,10 +65,15 @@ export default HomeStatsCard = (props) => {
           justifyContent: 'center',
         }}>
         <Image
-          style={{width: 68, height: 68, alignSelf: 'center', margin: 8}}
+          style={{width: 52, height: 52, alignSelf: 'center', margin: 6}}
           source={source}
         />
         <Text style={[styles.textCount, customTitleStyle]}>{count}</Text>
+        <Text style={[styles.textDeltaCount, customTitleStyle]}>
+          {deltaCount == '--' || deltaCount == 0
+            ? '[--]'
+            : '[+' + deltaCount + ']'}
+        </Text>
         <Text style={[styles.textTitle, customTitleStyle]}>{title}</Text>
 
         <Text
@@ -78,10 +83,10 @@ export default HomeStatsCard = (props) => {
             justifyContent: 'center',
             alignSelf: 'center',
             backgroundColor: '#F0F0F0',
-            borderRadius: 24,
-            paddingVertical: 8,
-            paddingHorizontal: 16,
-            marginTop: 12,
+            borderRadius: 16,
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            marginTop: 8,
           }}>
           More info
         </Text>
@@ -98,14 +103,21 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   textCount: {
-    fontFamily: 'regular',
-    fontSize: 48,
+    fontFamily: 'bold',
+    fontSize: 44,
+    width: '100%',
+    textAlign: 'center',
+  },
+  textDeltaCount: {
+    fontFamily: 'bold',
+    fontSize: 16,
     width: '100%',
     textAlign: 'center',
   },
   textTitle: {
     fontFamily: 'regular',
-    fontSize: 20,
+    marginTop: 8,
+    fontSize: 18,
     width: '100%',
     textAlign: 'center',
   },
