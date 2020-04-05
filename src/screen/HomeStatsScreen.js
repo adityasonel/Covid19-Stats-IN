@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,8 +8,7 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import {connect} from 'react-redux';
-
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import StatusBar from '../component/StatusBar';
@@ -19,10 +18,9 @@ import Color from '../util/Color';
 import {APP_SCREEN} from '../util/Constant';
 
 import HomeStatsCard from '../component/HomeStatsCard';
-import dataAction from '../store/Action';
 
-class HomeStatsScreen extends React.PureComponent {
-  state = {
+const HomeStatsScreen = (props) => {
+  const [stats, setStats] = useState({
     totalStats: [
       {
         id: 0,
@@ -41,146 +39,178 @@ class HomeStatsScreen extends React.PureComponent {
         count: '--',
       },
     ],
-    stateWise: [],
-    lastUpdated: 'xx/xx/xxxx xx:xx:xx',
-    isRefresh: false,
+    stateWiseStats: [],
+    lastUpdateTime: 'xx/xx/xxxx xx:xx:xx',
+    isRequestDone: false,
     error: '',
+  });
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    if (stats.isRequestDone === false) {
+      getData();
+    }
+  }, []);
+
+  const _onRefresh = () => {
+    setStats({
+      isRequestDone: false,
+    });
+    setIsRefreshing(true);
+    getData();
   };
 
-  _onPressMoreInfo = (index) => {
-    if (this.state.stateWise.length != 0) {
-      this.props.navigation.navigate(APP_SCREEN.DETAILED_STATS_SCREEN, {
-        data: this.state.stateWise,
+  const _onPressAppInfo = () => {
+    props.navigation.navigate(APP_SCREEN.APP_INFO_SCREEN);
+  };
+
+  const _onPressMoreInfo = () => {
+    if (stats.stateWiseStats.length != 0) {
+      props.navigation.navigate(APP_SCREEN.DETAILED_STATS_SCREEN, {
+        data: stats.stateWiseStats,
       });
     }
   };
 
-  _onPressAppInfo = () => {
-    this.props.navigation.navigate(APP_SCREEN.APP_INFO_SCREEN);
+  const getData = () => {
+    axios
+      .get('https://api.covid19india.org/data.json')
+      .then((response) => {
+        const data = response.data.statewise;
+        setStats({
+          totalStats: [
+            {
+              id: 0,
+              count: data[0].confirmed,
+            },
+            {
+              id: 1,
+              count: data[0].active,
+            },
+            {
+              id: 2,
+              count: data[0].recovered,
+            },
+            {
+              id: 3,
+              count: data[0].deaths,
+            },
+          ],
+          stateWiseStats: data,
+          lastUpdateTime: data[0].lastupdatedtime,
+          error: '',
+          isRequestDone: true,
+        });
+        setIsRefreshing(false);
+      })
+      .catch((error) => {
+        setStats({
+          totalStats: [
+            {
+              id: 0,
+              count: '--',
+            },
+            {
+              id: 1,
+              count: '--',
+            },
+            {
+              id: 2,
+              count: '--',
+            },
+            {
+              id: 3,
+              count: '--',
+            },
+          ],
+          stateWiseStats: [],
+          lastUpdateTime: 'xx/xx/xxxx xx:xx:xx',
+          error: error,
+          isRequestDone: true,
+        });
+        setIsRefreshing(false);
+      });
   };
 
-  _onRefresh = () => {
-    this.props.fetchData();
-  };
+  return (
+    <View style={styles.container}>
+      <StatusBar />
+      <Header title="Covid19 Stats India" />
 
-  componentDidMount() {
-    this.props.fetchData();
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    // console.log(nextProps);
-    if (nextProps.data.data) {
-      const data = nextProps.data.data.statewise[0];
-      const upTime = data.lastupdatedtime;
-      return {
-        totalStats: [
-          {
-            id: 0,
-            count: data.confirmed,
-          },
-          {
-            id: 1,
-            count: data.active,
-          },
-          {
-            id: 2,
-            count: data.recovered,
-          },
-          {
-            id: 3,
-            count: data.deaths,
-          },
-        ],
-        isRefresh: nextProps.isRequesting,
-        lastUpdated: upTime,
-        error: nextProps.error,
-        stateWise: nextProps.data.data.statewise,
-      };
-    } else {
-      return null;
-    }
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar />
-        <Header title="Covid19 Stats India" />
-
-        <Text style={styles.textLastUpdate}>
-          Last updated on : {this.state.lastUpdated}
-        </Text>
-        {this.state.error ? (
-          <ScrollView
-            contentContainerStyle={{flex: 1, justifyContent: 'center'}}
-            refreshControl={
-              <RefreshControl
-                colors={[
-                  Color.dark_red,
-                  Color.dark_blue,
-                  Color.dark_green,
-                  Color.dark_yellow,
-                ]}
-                onRefresh={() => this._onRefresh()}
-                refreshing={this.state.isRefresh}
-              />
-            }>
-            <Text style={styles.textError}>
-              Some error occurred, Please try again!
-            </Text>
-          </ScrollView>
-        ) : (
-          <FlatList
-            numColumns={2}
-            contentContainerStyle={{margin: 10}}
-            data={this.state.totalStats}
-            renderItem={({item, index}) => (
-              <HomeStatsCard
-                index={index}
-                count={item.count}
-                onPressMoreInfo={() => this._onPressMoreInfo(index)}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            overScrollMode="never"
-            refreshControl={
-              <RefreshControl
-                colors={[
-                  Color.dark_red,
-                  Color.dark_blue,
-                  Color.dark_green,
-                  Color.dark_yellow,
-                ]}
-                onRefresh={() => this._onRefresh()}
-                refreshing={this.state.isRefresh}
-              />
-            }
-          />
-        )}
-
-        <TouchableOpacity
-          onPress={() => this._onPressAppInfo()}
-          activeOpacity={0.8}
-          style={{
-            borderRadius: 6,
-            marginVertical: 12,
-            marginHorizontal: 14,
-            flexDirection: 'row',
-            padding: 12,
-            backgroundColor: 'grey',
-            justifyContent: 'space-between',
-          }}>
-          <Text
-            style={{color: Color.white, fontFamily: 'regular', fontSize: 20}}>
-            App Info
+      <Text style={styles.textLastUpdate}>
+        Last updated on : {stats.lastUpdateTime}
+      </Text>
+      {stats.error ? (
+        <ScrollView
+          contentContainerStyle={{flex: 1, justifyContent: 'center'}}
+          refreshControl={
+            <RefreshControl
+              colors={[
+                Color.dark_red,
+                Color.dark_blue,
+                Color.dark_green,
+                Color.dark_yellow,
+              ]}
+              onRefresh={() => _onRefresh()}
+              refreshing={isRefreshing}
+            />
+          }>
+          <Text style={styles.textError}>
+            Some error occurred, Please try again!
           </Text>
-          <Icon name="info-circle" size={22} color={Color.white} />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+        </ScrollView>
+      ) : (
+        <FlatList
+          numColumns={2}
+          contentContainerStyle={{margin: 10}}
+          data={stats.totalStats}
+          renderItem={({item, index}) => (
+            <HomeStatsCard
+              index={index}
+              count={item.count}
+              onPressMoreInfo={() =>
+                _onPressMoreInfo(stats.stateWiseStats, props)
+              }
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          overScrollMode="never"
+          refreshControl={
+            <RefreshControl
+              colors={[
+                Color.dark_red,
+                Color.dark_blue,
+                Color.dark_green,
+                Color.dark_yellow,
+              ]}
+              onRefresh={() => _onRefresh()}
+              refreshing={isRefreshing}
+            />
+          }
+        />
+      )}
+
+      <TouchableOpacity
+        onPress={() => _onPressAppInfo(props)}
+        activeOpacity={0.8}
+        style={{
+          borderRadius: 6,
+          marginVertical: 12,
+          marginHorizontal: 14,
+          flexDirection: 'row',
+          padding: 12,
+          backgroundColor: 'grey',
+          justifyContent: 'space-between',
+        }}>
+        <Text style={{color: Color.white, fontFamily: 'regular', fontSize: 20}}>
+          App Info
+        </Text>
+        <Icon name="info-circle" size={22} color={Color.white} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -200,20 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (store) => {
-  return {
-    isRequesting: store.dataReducer.isRequesting,
-    data: store.dataReducer.response,
-    error: store.dataReducer.error,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchData: (value) => {
-      dispatch(dataAction(value, dispatch));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeStatsScreen);
+export default HomeStatsScreen;
