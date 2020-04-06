@@ -168,7 +168,7 @@ const HomeStatsScreen = (props) => {
       ) : (
         <FlatList
           numColumns={2}
-          contentContainerStyle={{margin: 10}}
+          contentContainerStyle={{margin: 10, paddingBottom: 14}}
           data={stats.totalStats}
           renderItem={({item, index}) => (
             <HomeStatsCard
@@ -181,8 +181,6 @@ const HomeStatsScreen = (props) => {
             />
           )}
           keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          overScrollMode="never"
           refreshControl={
             <RefreshControl
               colors={[

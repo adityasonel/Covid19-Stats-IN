@@ -63,9 +63,10 @@ export default HomeStatsCard = (props) => {
         style={{
           height: '100%',
           justifyContent: 'center',
+          padding: 12,
         }}>
         <Image
-          style={{width: 52, height: 52, alignSelf: 'center', margin: 6}}
+          style={{width: 52, height: 52, alignSelf: 'center'}}
           source={source}
         />
         <Text style={[styles.textCount, customTitleStyle]}>{count}</Text>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
   },
   textCount: {
     fontFamily: 'bold',
-    fontSize: 44,
+    fontSize: calculatedWidth(10),
     width: '100%',
     textAlign: 'center',
   },

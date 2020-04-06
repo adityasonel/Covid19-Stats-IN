@@ -23,8 +23,6 @@ const DetailedStatsScreen = (props) => {
         data={d}
         renderItem={({item, index}) => <DetailedStatsCard item={item} />}
         keyExtractor={(item) => item.statecode}
-        showsVerticalScrollIndicator={false}
-        overScrollMode="never"
       />
     </View>
   );
