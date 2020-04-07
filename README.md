@@ -30,7 +30,7 @@ For Redux example check branch [master](https://github.com/adityasonel/Covid19-S
 
 **_You can Install and test latest Covid19 Stats India app from below 👇_**
 
-[![Covid19 Stats India App](https://img.shields.io/badge/Covid19StatsIndia-APK-blue.svg?style=for-the-badge&logo=android)](https://github.com/adityasonel/Covid19-Stats-IN/releases)
+[![Covid19 Stats India App](https://img.shields.io/badge/Covid19StatsIndia-APK-blue.svg?style=for-the-badge&logo=android)](https://bit.ly/covid19stats-in-apk)
 
 ## About
 
